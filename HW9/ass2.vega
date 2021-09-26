@@ -1,0 +1,52 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 500,
+  "title": "COVID-19 Total Global Cases and Deaths (as of September 2021) ",
+  "projection": {"type": "equalEarth"},
+  "layer": [
+    {
+      "data": {
+        "url": "world_topo.json",
+        "format": {"type": "topojson", "feature": "world"}
+      },
+      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"}
+    },
+    {
+      "data": {
+        "url": "covid_worldwide_9_2021.csv"
+      },
+      "mark": {
+        "type": "circle", 
+        "tooltip": {
+          "content": "encoding"
+        }
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude", 
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude", 
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "total_cases_per_million",
+          "type": "quantitative",
+          "title": "Total cases per million"
+        },
+        "color": {
+          "field": "total_deaths_per_million",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "scheme": "orangered",
+            "domain": [100, 300, 500, 1200, 1500]
+          },
+          "title": "Total deaths per million"
+        }        
+      }
+    }
+  ]
+}
