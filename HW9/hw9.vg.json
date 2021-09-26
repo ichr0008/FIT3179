@@ -34,7 +34,7 @@
         "size": {
           "field": "total_cases_per_million",
           "type": "quantitative",
-          "title": "Total cases per million"
+          "title": "Total cases per million people"
         },
         "color": {
           "field": "total_deaths_per_million",
@@ -44,7 +44,7 @@
             "scheme": "orangered",
             "domain": [100, 300, 500, 1200, 1500]
           },
-          "title": "Total deaths per million"
+          "title": "Total deaths per million people"
         }        
       }
     }
