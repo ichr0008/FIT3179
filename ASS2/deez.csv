@@ -1,3 +1,0 @@
-﻿date,state,state_abbrev,confirmed,confirmed_cum,deaths,deaths_cum,tests,tests_cum,positives,positives_cum,recovered,recovered_cum,hosp,hosp_cum,icu,icu_cum,vent,vent_cum,vaccines,vaccines_cum,positive_rate
-23/08/2021,New South Wales,NSW,805,18800,3,128,311083,12114261,805,18800,0,2802,32,586,5,100,1,32,59766,5905429,0.258773382
-17/09/2021,New South Wales,NSW,1270,49611,12,276,247258,15573011,1270,49611,0,2802,14,1245,-3,228,4,112,107258,8662819,0.513633533
