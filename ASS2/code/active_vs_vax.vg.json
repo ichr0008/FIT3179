@@ -4,7 +4,7 @@
         "text": "Active cases against vaccination rate"
     },
     "data": {
-        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/COVID_AU_cumulative.csv"
+        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/COVID_AU_cumulative.csv"
     },
     "params": [
         {
