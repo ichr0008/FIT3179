@@ -1,7 +1,7 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "data": {
-        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/state.csv"
+        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/state.csv"
     },
     "title": {
         "text": "COVID-19 Test Results",
