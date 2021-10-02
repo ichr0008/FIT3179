@@ -1,0 +1,126 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+        "text": "Active cases against vaccination rate"
+    },
+    "data": {
+        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/COVID_AU_cumulative.csv"
+    },
+    "params": [
+        {
+            "name": "state_select",
+            "value": "NA",
+            "bind": {
+                "input": "select",
+                "options": [
+                    "NA",
+                    "Australian Capital Territory",
+                    "New South Wales",
+                    "Northern Territory",
+                    "Queensland",
+                    "South Australia",
+                    "Tasmania",
+                    "Victoria",
+                    "Western Australia"
+                ],
+                "labels": [
+                    "Show all",
+                    "ACT",
+                    "NSW",
+                    "NT",
+                    "QLD",
+                    "SA",
+                    "TAS",
+                    "VIC",
+                    "WA"
+                ],
+                "name": "State Selection: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "calculate": "timeParse(datum['date_str'], '%d/%m/%Y')",
+            "as": "new_date"
+        },
+        {
+            "filter": "datum.state == state_select"
+        },
+        {
+            "calculate": "datum.vaccines/datum.population * 50",
+            "as": "prop_dbl_dose"
+        }
+    ],
+    "vconcat": [
+        {
+            "width": 600,
+            "height": 300,
+            "mark": {
+                "type": "line",
+                "color": "red"
+            },
+            "encoding": {
+                "x": {
+                    "field": "new_date", 
+                    "type": "temporal", 
+                    "title": "",
+                    "timeUnit": "yearmonthdate"
+                },
+                "y": {
+                    "field": "active", 
+                    "type": "quantitative",
+                    "title": "Active cases"
+                },
+                "tooltip": [
+                    {
+                        "field": "active",
+                        "type": "quantitative",
+                        "title": "Active cases",
+                        "format": ","
+                    },
+                    {
+                        "field": "new_date", 
+                        "type": "temporal", 
+                        "title": "Date",
+                        "timeUnit": "yearmonthdate"
+                    }
+                ]
+            }
+        },
+        {
+            "width": 600,
+            "height": 300,
+            "mark": {
+                "type": "line",
+                "color": "orange"
+            },
+            "encoding": {
+                "x": {
+                    "field": "new_date", 
+                    "type": "temporal", 
+                    "title": "Date",
+                    "timeUnit": "yearmonthdate"
+                },
+                "y": {
+                    "field": "prop_dbl_dose", 
+                    "type": "quantitative",
+                    "title": "Double vaccinaton rate (%)"
+                },
+                "tooltip": [
+                    {
+                        "field": "prop_dbl_dose",
+                        "type": "quantitative",
+                        "title": "Double vaccinaton rate (%)",
+                        "format": ".1f"
+                    },
+                    {
+                        "field": "new_date", 
+                        "type": "temporal", 
+                        "title": "Date",
+                        "timeUnit": "yearmonthdate"
+                    }
+                ]
+            }
+        }
+    ]
+}

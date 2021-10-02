@@ -1,0 +1,108 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500,
+    "height": 400,
+    "title": {
+        "text": "Title here"
+    },
+    "data": {
+        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/state.csv"
+    },
+    "params": [
+        {
+            "name": "time_slider",
+            "value": 0,
+            "bind": {
+                "input": "range",
+                "min": 0,
+                "max": 613,
+                "step": 1,
+                "name": "Days after 25/01/2020: "
+            }
+        },
+        {
+            "name": "highlight",
+            "select": {
+                "type": "point"
+            }
+        }
+    ],
+    "transform": [
+        {
+            "calculate": "timeParse(datum['date_str'], '%d/%m/%Y')",
+            "as": "new_date"
+        },
+        {
+            "lookup": "state",
+            "from": {
+                "data": {
+                    "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/aus.topo.json",
+                    "format": {
+                        "type": "topojson", 
+                        "feature": "australian-states"
+                    }
+                },
+                "key": "properties.STATE_NAME"
+            },
+            "as": "geo"
+        },
+        {
+            "filter": "time_slider + 43855 == datum.date_int"
+        },
+        {
+            "calculate": "(datum.active + 0.1)/10",
+            "as": "Active cases"
+        }
+    ],
+    "projection": {
+        "type": "equirectangular"
+    },
+    "mark": {
+        "type": "geoshape"
+    },
+    "encoding": {
+        "shape": {
+            "field": "geo",
+            "type": "geojson"
+        },
+        "color": {
+            "field": "Active cases",
+            "type": "quantitative",
+            "scale": {
+                "type": "log",
+                "scheme": "reds"
+            }
+        },
+        "stroke": {
+            "condition": {
+                    "param": "highlight",
+                    "empty": false,
+                    "value": "black"
+                },
+                "value": null
+        },
+        "opacity":{
+            "condition": {"param": "highlight", "value": 1},
+            "value": 0.5
+        },
+        "order": {"condition": {"param": "highlight", "value": 1}, "value": 0},
+        "tooltip": [
+            {
+                "field": "state",
+                "type": "nominal",
+                "title": "State"
+            },
+            {
+                "field": "Active cases",
+                "type": "quantitative",
+                "format": ",.0f"
+            },
+            {
+                "field": "new_date",
+                "type": "temporal",
+                "title": "Date"
+            }
+            
+        ]
+    }
+}
