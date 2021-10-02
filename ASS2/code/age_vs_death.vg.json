@@ -2,7 +2,7 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 400,
     "data": {
-        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/COVID_AU_deaths.csv"
+        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/COVID_AU_deaths.csv"
     },
     "params": [
         {
