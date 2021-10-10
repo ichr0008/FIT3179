@@ -65,7 +65,7 @@
                 "x": {
                     "field": "new_date", 
                     "type": "temporal",
-                    "timeUnit": "yearquartermonth"
+                    "timeUnit": "yearmonth"
                 },
                 "y": {
                     "aggregate": "count", 
@@ -77,7 +77,7 @@
                         "field": "new_date",
                         "type": "temporal",
                         "title": "Date",
-                        "timeUnit": "yearquartermonth"
+                        "timeUnit": "yearmonth"
                     },
                     {
                         "field": "age_bracket",
@@ -104,7 +104,7 @@
                     "field": "new_date",
                     "type": "temporal",
                     "title": "Date",
-                    "timeUnit": "yearquartermonth",
+                    "timeUnit": "yearmonth",
                     "axis": {
                         "tickCount": 20,
                         "grid": false
@@ -116,23 +116,28 @@
                     "title": "Number of deaths"
                 },
                 "color": {
-                    "field": "age_bracket",
+                    "field": "age_bracket_reduced",
                     "type": "ordinal",
                     "title": "Age bracket",
                     "scale": {
                         "domain": [
                             "Unknown",
-                            "20-29",
-                            "30-39",
-                            "40-49",
-                            "50-59",
+                            "<60",
                             "60-69",
                             "70-79",
                             "80-89",
                             "90-99",
                             "100-109"
                         ],
-                        "scheme": "reds"
+                        "range": [
+                            "#ffffb2",
+                            "#fed976",
+                            "#feb24c",
+                            "#fd8d3c",
+                            "#fc4e2a",
+                            "#e31a1c",
+                            "#b10026"
+                        ]
                     }
                 },
                 "order": {
@@ -143,7 +148,7 @@
                         "field": "new_date",
                         "type": "temporal",
                         "title": "Date",
-                        "timeUnit": "yearquartermonth"
+                        "timeUnit": "yearmonth"
                     },
                     {
                         "field": "age_bracket",
