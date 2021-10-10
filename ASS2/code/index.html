@@ -44,18 +44,39 @@
         </div>
     </div>
     <!-- end pure grid group -->
+    
     <br><br>
+
     <!-- pure grid group -->
     <div class="pure-g">
-    <div class="pure-u-2-5">
+      <div class="pure-u-2-5">
         <div id="vis2"  class="vis-container"></div>
-    </div>
-    <div class="pure-u-3-5">
+      </div>
+      <div class="pure-u-3-5">
         <div class="description description-right">
-        <h2>This is the second section</h2>
-        <p>Similar to the previous section, but the colum partition is swapped. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed. Egestas purus viverra accumsan in nisl.</p>
+          <h2>This is the second section</h2>
+          <p>Similar to the previous section, but the colum partition is swapped. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed. Egestas purus viverra accumsan in nisl.</p>
         </div>
+      </div>
     </div>
+
+    <br><br>
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-2-5">
+          <div class="description description-left">
+              <h2>This is the third section</h2>
+              <p>The first column is used for description while the next two columns are merged and used for visualisation. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed. </p>
+          </div>
+      </div>
+      <div class="pure-u-3-5">
+          <div id="vis3" class="vis-container description-right"></div>
+      </div>
+    </div>
+    <!-- end pure grid group -->
+  
+
       
     </div>
     <!-- end pure grid group -->
@@ -68,7 +89,7 @@
 <script type="text/javascript">
   var specVis1 = "tests.vg.json";
   var specVis2= "age_vs_death.vg.json";
-  var specVis3= "map.vg.json";
+  var specVis3= "active_vs_vax.vg.json";
 
   vegaEmbed('#vis1', specVis1, {"actions": false}).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
@@ -78,7 +99,7 @@
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 
-  vegaEmbed('#vis3', specVis1, {"actions": false}).then(function(result) {
+  vegaEmbed('#vis3', specVis3, {"actions": false}).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 
