@@ -6,6 +6,18 @@
     "data": {
         "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/COVID_AU_cumulative.csv"
     },
+    "datasets": {
+        "line_date": [
+            {"x": "2021-02-22"},
+            {"x": "2021-06-08"},
+            {"x": "2021-08-30"}
+        ],
+        "line_text": [
+            {"x": "2021-02-22", "y": 10, "labels": "Vaccines first become available"},
+            {"x": "2021-06-08", "y": 25, "labels": "Vaccines available for 40 and above"},
+            {"x": "2021-08-30", "y": 40, "labels": "Vaccines available for 16 to 39"}
+        ]
+    },
     "params": [
         {
             "name": "state_select",
@@ -48,13 +60,13 @@
         },
         {
             "calculate": "datum.vaccines/datum.population * 50",
-            "as": "prop_dbl_dose"
+            "as": "prop_vaxxed"
         }
     ],
     "vconcat": [
         {
-            "width": 600,
-            "height": 300,
+            "width": 500,
+            "height": 200,
             "mark": {
                 "type": "line",
                 "color": "red"
@@ -88,39 +100,79 @@
             }
         },
         {
-            "width": 600,
-            "height": 300,
-            "mark": {
-                "type": "line",
-                "color": "orange"
-            },
-            "encoding": {
-                "x": {
-                    "field": "new_date", 
-                    "type": "temporal", 
-                    "title": "Date",
-                    "timeUnit": "yearmonthdate"
-                },
-                "y": {
-                    "field": "prop_dbl_dose", 
-                    "type": "quantitative",
-                    "title": "Double vaccinaton rate (%)"
-                },
-                "tooltip": [
-                    {
-                        "field": "prop_dbl_dose",
-                        "type": "quantitative",
-                        "title": "Double vaccinaton rate (%)",
-                        "format": ".1f"
+            "width": 500,
+            "height": 200,
+            "layer": [
+                {
+                    "mark": {
+                        "type": "line",
+                        "color": "orange"
                     },
-                    {
-                        "field": "new_date", 
-                        "type": "temporal", 
-                        "title": "Date",
-                        "timeUnit": "yearmonthdate"
+                    "encoding": {
+                        "x": {
+                            "field": "new_date", 
+                            "type": "temporal", 
+                            "title": "Date",
+                            "timeUnit": "yearmonthdate"
+                        },
+                        "y": {
+                            "field": "prop_vaxxed", 
+                            "type": "quantitative",
+                            "title": "Double vaccinaton rate (%)"
+                        },
+                        "tooltip": [
+                            {
+                                "field": "prop_vaxxed",
+                                "type": "quantitative",
+                                "title": "Double vaccinaton rate (%)",
+                                "format": ".1f"
+                            },
+                            {
+                                "field": "new_date", 
+                                "type": "temporal", 
+                                "title": "Date",
+                                "timeUnit": "yearmonthdate"
+                            }
+                        ]
                     }
-                ]
-            }
+                },
+                {
+                    "data": {
+                        "name": "line_date"
+                    },
+                    "mark": {
+                        "type": "rule",
+                        "strokeDash": [8, 4],
+                        "opacity": 0.5
+                    },
+                    "encoding": {
+                        "x": {
+                            "type": "temporal", 
+                            "field": "x"
+                        }
+                    }
+                },
+                {
+                    "data": {"name": "line_text"},
+                    "mark": {
+                        "type": "text", 
+                        "align": "right", 
+                        "dx": -5
+                    },
+                    "encoding": {
+                        "x": {
+                            "type": "temporal", 
+                            "field": "x"
+                        },
+                        "y": {
+                            "type": "quantitative", 
+                            "field": "y"
+                        },
+                        "text": {"type": "nominal", "field": "labels"}
+                    }
+                }
+            ]
+            
         }
     ]
 }
