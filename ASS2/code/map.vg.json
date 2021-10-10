@@ -1,32 +1,11 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 500,
-    "height": 400,
     "title": {
-        "text": "Title here"
+        "text": "Active Cases by State"
     },
     "data": {
         "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/state.csv"
     },
-    "params": [
-        {
-            "name": "time_slider",
-            "value": 0,
-            "bind": {
-                "input": "range",
-                "min": 0,
-                "max": 613,
-                "step": 1,
-                "name": "Days after 25/01/2020: "
-            }
-        },
-        {
-            "name": "highlight",
-            "select": {
-                "type": "point"
-            }
-        }
-    ],
     "transform": [
         {
             "calculate": "timeParse(datum['date_str'], '%d/%m/%Y')",
@@ -36,7 +15,7 @@
             "lookup": "state",
             "from": {
                 "data": {
-                    "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/aus.topo.json",
+                    "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/code/aus.topo.json",
                     "format": {
                         "type": "topojson", 
                         "feature": "australian-states"
@@ -47,62 +26,91 @@
             "as": "geo"
         },
         {
-            "filter": "time_slider + 43855 == datum.date_int"
-        },
-        {
             "calculate": "(datum.active + 0.1)/10",
             "as": "Active cases"
         }
     ],
-    "projection": {
-        "type": "equirectangular"
-    },
-    "mark": {
-        "type": "geoshape"
-    },
-    "encoding": {
-        "shape": {
-            "field": "geo",
-            "type": "geojson"
-        },
-        "color": {
-            "field": "Active cases",
-            "type": "quantitative",
-            "scale": {
-                "type": "log",
-                "scheme": "reds"
-            }
-        },
-        "stroke": {
-            "condition": {
-                    "param": "highlight",
-                    "empty": false,
-                    "value": "black"
+    "vconcat": [
+        {
+            "width": 400,
+            "height": 400,
+            "transform": [
+                {"filter": {"param": "brush"}}
+            ],
+            "projection": {
+                "type": "equirectangular"
+            },
+            "mark": {
+                "type": "geoshape"
+            },
+            "encoding": {
+                "shape": {
+                    "field": "geo",
+                    "type": "geojson"
                 },
-                "value": null
-        },
-        "opacity":{
-            "condition": {"param": "highlight", "value": 1},
-            "value": 0.5
-        },
-        "order": {"condition": {"param": "highlight", "value": 1}, "value": 0},
-        "tooltip": [
-            {
-                "field": "state",
-                "type": "nominal",
-                "title": "State"
-            },
-            {
-                "field": "Active cases",
-                "type": "quantitative",
-                "format": ",.0f"
-            },
-            {
-                "field": "new_date",
-                "type": "temporal",
-                "title": "Date"
+                "color": {
+                    "field": "Active cases",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "log",
+                        "scheme": "reds"
+                    }
+                },
+                "tooltip": [
+                    {
+                        "field": "state",
+                        "type": "nominal",
+                        "title": "State"
+                    },
+                    {
+                        "field": "Active cases",
+                        "type": "quantitative",
+                        "format": ",.0f"
+                    },
+                    {
+                        "field": "new_date",
+                        "type": "temporal",
+                        "title": "Date"
+                    }
+                    
+                ]
             }
-            
-        ]
-    }
+        },
+        {
+            "width": 400,
+            "height": 50,
+            "mark": "line",
+            "params": [
+                {
+                    "name": "brush",
+                    "select": {
+                        "type": "interval", 
+                        "encodings": ["x"]
+                    }
+                }
+            ],
+            "encoding": {
+                "x": {
+                    "field": "new_date",
+                    "type": "temporal",
+                    "title": "",
+                    "axis": {
+                        "format": "%b %Y"
+                    }
+                },
+                "y": {
+                    "aggregate": "sum",
+                    "field": "Active cases",
+                    "type": "quantitative",
+                    "axis": {
+                        "tickCount": 3
+                    },
+                    "scale": {
+                        "type": "log"
+                    },
+                    "title": "Total Active Cases"
+                }
+            }
+        }
+    ]
 }
