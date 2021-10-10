@@ -24,9 +24,9 @@
 
     <!-- pure grid group -->
     <div class="pure-g">
-    <div class="pure-u-1-1">
-        <h1>Multiple Visualisations</h1>
-        <p>This page demonstrates how you can use pure.css grid for your layout.</p>
+    <div class="pure-u-1-1" style="text-align: center;">
+        <h1>COVID Down Under: The Prevelance of Coronavirus in Australia</h1>
+        <p>By: Immanuel Andrew Christabel 30572940</p>
     </div>
     </div>
     <!-- end pure grid group -->
@@ -68,6 +68,7 @@
 <script type="text/javascript">
   var specVis1 = "tests.vg.json";
   var specVis2= "age_vs_death.vg.json";
+  var specVis3= "map.vg.json";
 
   vegaEmbed('#vis1', specVis1, {"actions": false}).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
@@ -81,9 +82,6 @@
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 
-  vegaEmbed('#vis4', specVis2, {"actions": false}).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
 </script>
 </body>
 </html>
