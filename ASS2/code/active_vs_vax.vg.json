@@ -1,0 +1,204 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+        "text": "Active Cases against Vaccination Rate"
+    },
+    "data": {
+        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/vaccine.csv"
+    },
+    "datasets": {
+        "line_date": [
+            {"x": "2021-02-22"},
+            {"x": "2021-06-08"},
+            {"x": "2021-08-30"}
+        ],
+        "line_text": [
+            {"x": "2021-02-22", "y": 25, "labels": "Vaccines avaialble for seniors and healthcare workers"},
+            {"x": "2021-06-08", "y": 50, "labels": "Vaccines available for 40 and above"},
+            {"x": "2021-08-30", "y": 75, "labels": "Vaccines available for 16 to 39"}
+        ]
+    },
+    "params": [
+        {
+            "name": "state_select",
+            "value": "NA",
+            "bind": {
+                "input": "select",
+                "options": [
+                    "NA",
+                    "Australian Capital Territory",
+                    "New South Wales",
+                    "Northern Territory",
+                    "Queensland",
+                    "South Australia",
+                    "Tasmania",
+                    "Victoria",
+                    "Western Australia"
+                ],
+                "labels": [
+                    "Show all",
+                    "ACT",
+                    "NSW",
+                    "NT",
+                    "QLD",
+                    "SA",
+                    "TAS",
+                    "VIC",
+                    "WA"
+                ],
+                "name": "State Selection: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter": "datum.state == state_select"
+        },
+        {
+            "calculate": "datum.value/datum.population * 100",
+            "as": "prop"
+        }
+    ],
+    "vconcat": [
+        {
+            "width": 500,
+            "height": 200,
+            "mark": {
+                "type": "line",
+                "color": "red"
+            },
+            "transform": [
+                {"filter": {"param": "brush"}}
+            ],
+            "encoding": {
+                "x": {
+                    "field": "date_us", 
+                    "type": "temporal", 
+                    "title": "",
+                    "timeUnit": "yearmonthdate"
+                },
+                "y": {
+                    "field": "active", 
+                    "type": "quantitative",
+                    "title": "Active cases"
+                },
+                "tooltip": [
+                    {
+                        "field": "active",
+                        "type": "quantitative",
+                        "title": "Active cases",
+                        "format": ","
+                    },
+                    {
+                        "field": "date_us", 
+                        "type": "temporal", 
+                        "title": "Date",
+                        "timeUnit": "yearmonthdate"
+                    }
+                ]
+            }
+        },
+        {
+            "width": 500,
+            "height": 200,
+            "layer": [
+                {
+                    "mark": {
+                        "type": "line",
+                        "color": "orange"
+                    },
+                    "params": [
+                        {
+                            "name": "brush",
+                            "select": {
+                                "type": "interval", 
+                                "encodings": ["x"]
+                            }
+                        }
+                    ],
+                    "encoding": {
+                        "x": {
+                            "field": "date_us", 
+                            "type": "temporal", 
+                            "title": "Date",
+                            "timeUnit": "yearmonthdate"
+                        },
+                        "y": {
+                            "field": "prop", 
+                            "type": "quantitative",
+                            "title": "Vaccinaton rate (%)",
+                            "scale": {
+                                "domain": [0, 100]
+                            }
+                        },
+                        "color": {
+                           "field": "attribute",
+                           "scale": {
+                               "domain": ["vaccines_1", "vaccines_2"],
+                               "range": ["purple", "orange"]
+                           },
+                           "type": "nominal",
+                           "legend": {
+                               "labelExpr": "{'vaccines_1': 'Does 1', 'vaccines_2': 'Dose 2'}[datum.label]",
+                               "orient": "none",
+                               "legendX": 20,
+                               "legendY": 20
+                            },
+                           "title": "Vaccine type"
+                        },
+                        "tooltip": [
+                            {
+                                "field": "prop",
+                                "type": "quantitative",
+                                "title": "Vaccinaton rate (%)",
+                                "format": ".1f"
+                            },
+                            {
+                                "field": "date_us", 
+                                "type": "temporal", 
+                                "title": "Date",
+                                "timeUnit": "yearmonthdate"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "data": {
+                        "name": "line_date"
+                    },
+                    "mark": {
+                        "type": "rule",
+                        "strokeDash": [8, 4],
+                        "opacity": 0.5
+                    },
+                    "encoding": {
+                        "x": {
+                            "type": "temporal", 
+                            "field": "x"
+                        }
+                    }
+                },
+                {
+                    "data": {"name": "line_text"},
+                    "mark": {
+                        "type": "text", 
+                        "align": "right", 
+                        "dx": -5
+                    },
+                    "encoding": {
+                        "x": {
+                            "type": "temporal", 
+                            "field": "x"
+                        },
+                        "y": {
+                            "type": "quantitative", 
+                            "field": "y"
+                        },
+                        "text": {"type": "nominal", "field": "labels"}
+                    }
+                }
+            ]
+            
+        }
+    ]
+}

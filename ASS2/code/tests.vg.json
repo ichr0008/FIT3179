@@ -1,0 +1,247 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/state.csv"
+    },
+    "title": {
+        "text": "COVID-19 Test Results",
+        "subtitle": " (Jan 2020 - Sept 2021)"
+    },
+    "params": [
+        {
+            "name": "state_select",
+            "value": null,
+            "bind": {
+                "input": "select",
+                "options": [
+                    null,
+                    "ACT",
+                    "NSW",
+                    "NT",
+                    "QLD",
+                    "SA",
+                    "TAS",
+                    "VIC",
+                    "WA"
+                ],
+                "labels": [
+                    "Show all",
+                    "ACT",
+                    "NSW",
+                    "NT",
+                    "QLD",
+                    "SA",
+                    "TAS",
+                    "VIC",
+                    "WA"
+                ],
+                "name": "State Selection: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter": "datum.tests >= 0"
+        },
+        {
+            "filter": "datum.positives >= 0"
+        },
+        {
+            "filter": "state_select == null || datum.state_abbrev == state_select"
+        },
+        {
+            "window": [{
+              "op": "mean",
+              "field": "tests",
+              "as": "avg_test"
+            }],
+            "sort": [{"field": "date_us", "order": "ascending"}],
+            "ignorePeers": false,
+            "frame": [-15, 15]
+        }
+    ],
+    "vconcat": [
+        {
+            "width": 500,
+            "height": 200,
+            "transform": [
+                {"filter": {"param": "brush"}}
+            ],
+            "layer": [
+                {
+                    "mark": {
+                        "type": "circle",
+                        "color": "red"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "date_us",
+                            "type": "temporal",
+                            "title": "",
+                            "timeUnit": "yearmonthdate"
+                        },
+                        "y": {
+                            "field": "tests",
+                            "type": "quantitative",
+                            "title": "Number of tests"
+                        },
+                        "opacity":{
+                            "value": 0.5
+                        },
+                        "size": {
+                            "field": "positive_rate",
+                            "type": "quantitative",
+                            "title": "% Positive Rate",
+                            "scale": {
+                                "rangeMin": 5
+                                }
+                        },
+                        "tooltip": [
+                            {
+                                "field": "date_us",
+                                "type": "temporal",
+                                "title": "Date"
+                            },
+                            {
+                                "field": "tests",
+                                "type": "quantitative",
+                                "format": ",",
+                                "title": "Number of tests"
+                            },
+                            {
+                                "field": "positives",
+                                "type": "quantitative",
+                                "title": "Number of positives"
+                            },
+                            {
+                                "field": "positive_rate",
+                                "type": "quantitative",
+                                "title": "Postive test rate (%)",
+                                "format": ".2f"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "mark": {"type":"line", "color": "purple"},
+                    "encoding": {
+                        "x": {"timeUnit": "yearmonthdate", "field": "date_us"},
+                        "y": {
+                        "field": "avg_test",
+                        "type": "quantitative"
+                        },
+                        "tooltip": [
+                            {
+                                "field": "date_us",
+                                "type": "temporal",
+                                "title": "Date"
+                            },
+                            {
+                                "field": "avg_test",
+                                "type": "quantitative",
+                                "title": "30 Day Moving Average",
+                                "format": ",.0f"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }, 
+        {
+            "width": 500,
+            "height": 50,
+            "layer": [
+                {
+                    "mark": {
+                        "type": "circle",
+                        "color": "red"
+                    },
+                    "params": [
+                        {
+                            "name": "brush",
+                            "select": {
+                                "type": "interval", 
+                                "encodings": ["x"]
+                            }
+                        }
+                    ],
+                    "encoding": {
+                        "x": {
+                            "field": "date_us",
+                            "type": "temporal",
+                            "title": "Date"
+                        },
+                        "y": {
+                            "field": "tests",
+                            "type": "quantitative",
+                            "title": "Number of tests",
+                            "axis": {
+                                "tickCount": 3
+                            }
+                        },
+                        "opacity":{
+                            "value": 0.5
+                        },
+                        "size": {
+                            "field": "positive_rate",
+                            "type": "quantitative",
+                            "title": "% Positive Rate",
+                            "scale": {
+                                "rangeMin": 5
+                            },
+                            "legend": {
+                                "orient": "none",
+                                "legendX": 20,
+                                "legendY": 20
+                            }
+                        }
+                    }
+                },
+                {
+                    "mark": {"type":"line", "color": "purple"},
+                    "encoding": {
+                        "x": {"timeUnit": "yearmonthdate", "field": "date_us"},
+                        "y": {
+                            "field": "avg_test",
+                            "type": "quantitative"
+                        },
+                        "tooltip": [
+                            {
+                                "field": "date_us",
+                                "type": "temporal",
+                                "title": "Date"
+                            },
+                            {
+                                "field": "avg_test",
+                                "type": "quantitative",
+                                "title": "30 Day Moving Average",
+                                "format": ",.0f"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "mark": "rule",
+                    "data": {
+                        "values":[{ "legend_text": "30 Day Average" }]
+                    },
+                    "encoding": {
+                        "color": {
+                            "field": "legend_text",
+                            "type": "nominal",
+                            "legend": {
+                                "title": "",
+                                "orient": "none",
+                                "legendX": 110,
+                                "legendY": 20
+                            },
+                            "scale": {
+                                "range": ["purple"]
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
