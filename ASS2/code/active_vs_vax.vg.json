@@ -142,7 +142,7 @@
                                "labelExpr": "{'vaccines_1': 'Does 1', 'vaccines_2': 'Dose 2'}[datum.label]",
                                "orient": "none",
                                "legendX": 20,
-                               "legendY": 20
+                               "legendY": 260
                             },
                            "title": "Vaccine type"
                         },
