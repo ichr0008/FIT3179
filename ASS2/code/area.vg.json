@@ -2,7 +2,7 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "data": {"url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/severities.csv"},
     "title": {
-        "text": "Severity Distribution by State",
+        "text": "Severity of Symptoms State",
         "subtitle": " (Jan 2020 - Sept 2021)"
     },
     "params": [
