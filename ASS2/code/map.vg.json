@@ -1,9 +1,12 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "data": {
-        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/state.csv"
+        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/active.csv"
     },
     "transform": [
+        {
+            "filter": "datum.state != 'NA'"
+        },
         {
             "lookup": "state",
             "from": {
@@ -26,7 +29,7 @@
     "vconcat": [
         {
             "title": {
-                "text": "Active Cases by State"
+                "text": "Active Cases per 100,000 by State"
             },
             "width": 400,
             "height": 300,
@@ -45,12 +48,13 @@
                     "type": "geojson"
                 },
                 "color": {
-                    "field": "Active cases",
+                    "field": "prop_active",
                     "type": "quantitative",
                     "scale": {
-                        "type": "log",
-                        "scheme": "reds"
-                    }
+                        "scheme": "reds",
+                        "type": "log"
+                    },
+                    "title": ""
                 },
                 "stroke": {
                     "value": "grey"
@@ -62,16 +66,22 @@
                         "title": "State"
                     },
                     {
-                        "field": "Active cases",
+                        "field": "active",
                         "type": "quantitative",
+                        "title": "Total active cases",
                         "format": ",.0f"
+                    },
+                    {
+                        "field": "prop_active",
+                        "type": "quantitative",
+                        "format": ",.0f",
+                        "title": "Active cases per 100,000"
                     },
                     {
                         "field": "date_us",
                         "type": "temporal",
                         "title": "Date"
                     }
-                    
                 ]
             }
         },
