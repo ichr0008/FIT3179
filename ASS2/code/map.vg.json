@@ -1,0 +1,134 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/dataset/active.csv"
+    },
+    "transform": [
+        {
+            "filter": "datum.state != 'NA'"
+        },
+        {
+            "lookup": "state",
+            "from": {
+                "data": {
+                    "url": "https://raw.githubusercontent.com/ichr0008/FIT3179/main/ASS2/code/aus.topo.json",
+                    "format": {
+                        "type": "topojson", 
+                        "feature": "australian-states"
+                    }
+                },
+                "key": "properties.STATE_NAME"
+            },
+            "as": "geo"
+        },
+        {
+            "calculate": "(datum.active + 0.1)/10",
+            "as": "Active cases"
+        }
+    ],
+    "vconcat": [
+        {
+            "title": {
+                "text": "Active Cases per 100,000 by State"
+            },
+            "width": 400,
+            "height": 300,
+            "transform": [
+                {"filter": {"param": "brush"}}
+            ],
+            "projection": {
+                "type": "equirectangular"
+            },
+            "mark": {
+                "type": "geoshape"
+            },
+            "encoding": {
+                "shape": {
+                    "field": "geo",
+                    "type": "geojson"
+                },
+                "color": {
+                    "field": "prop_active",
+                    "type": "quantitative",
+                    "scale": {
+                        "scheme": "reds",
+                        "type": "log"
+                    },
+                    "title": ""
+                },
+                "stroke": {
+                    "value": "grey"
+                },
+                "tooltip": [
+                    {
+                        "field": "state",
+                        "type": "nominal",
+                        "title": "State"
+                    },
+                    {
+                        "field": "active",
+                        "type": "quantitative",
+                        "title": "Total active cases",
+                        "format": ",.0f"
+                    },
+                    {
+                        "field": "prop_active",
+                        "type": "quantitative",
+                        "format": ",.0f",
+                        "title": "Active cases per 100,000"
+                    },
+                    {
+                        "field": "date_us",
+                        "type": "temporal",
+                        "title": "Date"
+                    }
+                ]
+            }
+        },
+        {
+            "width": 400,
+            "height": 50,
+            "mark": {
+                "type": "line",
+                "color": "red"
+            },
+            "title": "Total Active Cases",
+            "params": [
+                {
+                    "name": "brush",
+                    "select": {
+                        "type": "interval", 
+                        "encodings": ["x"]
+                    }
+                }
+            ],
+            "encoding": {
+                "x": {
+                    "field": "date_us",
+                    "type": "temporal",
+                    "title": "Date",
+                    "axis": {
+                        "format": "%b %Y"
+                    }
+                },
+                "y": {
+                    "aggregate": "sum",
+                    "field": "Active cases",
+                    "type": "quantitative",
+                    "axis": {
+                        "tickCount": 3
+                    },
+                    "scale": {
+                        "type": "log"
+                    },
+                    "title": ""
+                }
+            }
+        }
+    ],
+    "config": {
+        "view": {
+           "stroke": "transparent"
+        }
+    }
+}
